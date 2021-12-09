@@ -58,9 +58,9 @@ void parse_line(const std::string& line, std::vector<unsigned>& sample, unsigned
     std::stringstream ss(line);
     for (int i = 0; i < n_values; ++i) {
         ss >> v;
-        v = v * multi;
+        v = v * multi;                  // turn decimal to integer by multiply multi
         sample.push_back((unsigned) v);
-        if (ss.peek() == ',') {
+        if (ss.peek() == ',') {         // check whether the next char is comma, if yes, ignore it. 
             ss.ignore();
         }
     }
@@ -104,7 +104,7 @@ void read_dataset(const std::string& filename, std::vector<std::vector<unsigned>
 template <typename ppT>
 void test_real_dt_path() {
     typedef libff::Fr<ppT> FieldT;
-    unsigned selector = 3;// [0, 1, 2, 3, 4, 5]
+    unsigned selector = 3;// [0, 1, 2, 3, 4, 5], select which model and dataset
 
     std::cout << "Generate R1CS for ";
     std::string names[6] = {"Iris", "Wine", "Abalone", "Forest", "Breast-cancer-wisconsin", "Spambase"};
@@ -166,8 +166,8 @@ void test_real_dt_path() {
 
 int main() {
     default_r1cs_gg_ppzksnark_pp::init_public_params();
-    swifft::init_swifft();
+    swifft::init_swifft(); // initialize the swifft hash function
 
-    test_synthetic_dt_path<default_r1cs_gg_ppzksnark_pp>();
-    test_real_dt_path<default_r1cs_gg_ppzksnark_pp>();
+    test_synthetic_dt_path<default_r1cs_gg_ppzksnark_pp>(); // test synthetic decision tree path ？
+    test_real_dt_path<default_r1cs_gg_ppzksnark_pp>();// test real dt path
 }
